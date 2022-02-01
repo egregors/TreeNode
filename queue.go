@@ -4,7 +4,7 @@ package treenode
 type NodeQueue []*TreeNode
 
 // IsEmpty returns true if the queue is empty
-func (q NodeQueue) IsEmpty() bool { return len(q) == 0 }
+func (q *NodeQueue) IsEmpty() bool { return len(*q) == 0 }
 
 // Push adds a nodes to the end of the queue. You can push a few nodes at a time.
 // They will be added like a "tail":

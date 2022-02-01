@@ -80,7 +80,7 @@ func Test_bfs(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := bfs(tt.args.q); !reflect.DeepEqual(got, tt.want) {
+			if got := bfs(&tt.args.q); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("bfs() = %v, want %v", got, tt.want)
 			}
 		})
@@ -178,12 +178,12 @@ func Test_bfsBuild(t *testing.T) {
 			},
 		},
 	}
-	err := bfsBuild(NodeQueue{root}, []string{"2", "3", "null", "null", "4", "5"})
+	err := bfsBuild(&NodeQueue{root}, []string{"2", "3", "null", "null", "4", "5"})
 	require.NoError(t, err)
 	assert.Equal(t, want.String(), root.String())
 
 	root = &TreeNode{1, nil, nil}
-	err = bfsBuild(NodeQueue{root}, []string{"2", "3", "null", "null", "spam", "5"})
+	err = bfsBuild(&NodeQueue{root}, []string{"2", "3", "null", "null", "spam", "5"})
 	require.Error(t, err)
 	assert.EqualError(t, err, "strconv.Atoi: parsing \"spam\": invalid syntax")
 }
