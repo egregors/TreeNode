@@ -29,7 +29,7 @@ func NewTreeNode(data string) (*TreeNode, error) {
 	}
 
 	root := &TreeNode{Val: rootVal}
-	err = bfsBuild(NodeQueue{root}, nodes[1:])
+	err = bfsBuild(&NodeQueue{root}, nodes[1:])
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func NewTreeNode(data string) (*TreeNode, error) {
 func (t TreeNode) String() string { return t.serialize() }
 
 func (t TreeNode) serialize() string {
-	return fmt.Sprintf("[%s]", strings.Join(bfs([]*TreeNode{&t}), Separator))
+	return fmt.Sprintf("[%s]", strings.Join(bfs(&NodeQueue{&t}), Separator))
 }
 
 // EmptyNodeMark is used to mark empty node in serialized string
@@ -48,7 +48,7 @@ const (
 	Separator     = ","
 )
 
-func bfs(q NodeQueue) []string {
+func bfs(q *NodeQueue) []string {
 	var (
 		nextQ        NodeQueue
 		level        []string
@@ -70,11 +70,11 @@ func bfs(q NodeQueue) []string {
 		return nil
 	}
 
-	return append(level, bfs(nextQ)...)
+	return append(level, bfs(&nextQ)...)
 }
 
-func bfsBuild(q NodeQueue, data []string) error {
-	if len(data) == 0 {
+func bfsBuild(q *NodeQueue, data []string) error {
+	if len(data) == 0 || q == nil {
 		return nil
 	}
 
@@ -88,7 +88,7 @@ func bfsBuild(q NodeQueue, data []string) error {
 
 			if l != EmptyNodeMark {
 				if lVal, lErr := strconv.Atoi(l); lErr == nil {
-					n.Left = &TreeNode{lVal, nil, nil}
+					n.Left = &TreeNode{Val: lVal}
 				} else {
 					return lErr
 				}
@@ -96,7 +96,7 @@ func bfsBuild(q NodeQueue, data []string) error {
 
 			if r != EmptyNodeMark {
 				if rVal, rErr := strconv.Atoi(r); rErr == nil {
-					n.Right = &TreeNode{rVal, nil, nil}
+					n.Right = &TreeNode{Val: rVal}
 				} else {
 					return rErr
 				}
@@ -106,5 +106,5 @@ func bfsBuild(q NodeQueue, data []string) error {
 		}
 	}
 
-	return bfsBuild(nextQ, data)
+	return bfsBuild(&nextQ, data)
 }
