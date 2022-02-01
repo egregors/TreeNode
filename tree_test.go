@@ -186,6 +186,9 @@ func Test_bfsBuild(t *testing.T) {
 	err = bfsBuild(&NodeQueue{root}, []string{"2", "3", "null", "null", "spam", "5"})
 	require.Error(t, err)
 	assert.EqualError(t, err, "strconv.Atoi: parsing \"spam\": invalid syntax")
+
+	err = bfsBuild(nil, []string{"2", "3", "null", "null", "spam", "5"})
+	assert.NoError(t, err)
 }
 
 func TestNewTreeNode(t *testing.T) {
