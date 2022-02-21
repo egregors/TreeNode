@@ -198,6 +198,13 @@ func TestNewTreeNode(t *testing.T) {
 	assert.Equal(t, data, root.String())
 }
 
+func TestNewTreeNodeWithReducedNulls(t *testing.T) {
+	data := "[1,2,2,3,3,null,null,4,4]"
+	root, err := NewTreeNode(data)
+	require.NoError(t, err)
+	assert.Equal(t, data, root.String())
+}
+
 func BenchmarkEmptyTree(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_, _ = NewTreeNode("[]")
