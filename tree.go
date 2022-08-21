@@ -97,8 +97,17 @@ func bfsBuild(q *NodeQueue, data []string) error {
 				return nil
 			}
 
-			l := data[0]
-			data = data[1:]
+			var (
+				l string
+				r = EmptyNodeMark
+			)
+
+			l, data = data[0], data[1:]
+
+			if len(data) > 0 {
+				r, data = data[0], data[1:]
+			}
+
 			if l != EmptyNodeMark {
 				if lVal, lErr := strconv.Atoi(l); lErr == nil {
 					n.Left = &TreeNode{Val: lVal}
@@ -106,13 +115,6 @@ func bfsBuild(q *NodeQueue, data []string) error {
 					return lErr
 				}
 			}
-			nextQ.Push(n.Left)
-			if len(data) == 0 {
-				return nil
-			}
-			r := data[0]
-
-			data = data[1:]
 
 			if r != EmptyNodeMark {
 				if rVal, rErr := strconv.Atoi(r); rErr == nil {
@@ -122,7 +124,7 @@ func bfsBuild(q *NodeQueue, data []string) error {
 				}
 			}
 
-			nextQ.Push(n.Right)
+			nextQ.Push(n.Left, n.Right)
 		}
 	}
 

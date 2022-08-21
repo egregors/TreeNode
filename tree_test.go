@@ -197,14 +197,16 @@ func TestNewTreeNode(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, data, root.String())
 }
-func TestNewTreeNodeOutOfRange(t *testing.T) {
-	data := "[1,2,3,4,5,6,7,8,9,10,11,12,13,null,null,15]"
+
+func TestNewTreeNodeWithReducedNulls(t *testing.T) {
+	data := "[1,2,2,3,3,null,null,4,4]"
 	root, err := NewTreeNode(data)
 	require.NoError(t, err)
 	assert.Equal(t, data, root.String())
 }
-func TestNewTreeNodeWithReducedNulls(t *testing.T) {
-	data := "[1,2,2,3,3,null,null,4,4]"
+
+func TestNewTreeNodeWithReducedNull(t *testing.T) {
+	data := "[1,2,3,4,5,6,7,8,9,10,11,12,13,null,null,15]"
 	root, err := NewTreeNode(data)
 	require.NoError(t, err)
 	assert.Equal(t, data, root.String())
